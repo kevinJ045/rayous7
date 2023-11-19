@@ -4,8 +4,9 @@ import { createClass } from "../utils/class";
 import { mergeClassnameWithOptions } from "../utils/cssClass";
 
 
-interface ListItemOptions extends options {
+export interface ListItemOptions extends options {
 	media?: Widget;
+	inner?: Widget;
 
 	title?: Widget | string;
 	after?: Widget | string;
@@ -13,12 +14,15 @@ interface ListItemOptions extends options {
 	subtitle?: Widget | string;
 	content?: Widget | string;
 
+
+	url?: string;
+
 	titleRow?: boolean;
 	link?: boolean
 }
 
 type items = Controller<any[]> | any[]
-interface ListOptions extends options {
+export interface ListOptions extends options {
 	itemsStateName?: string,
 	template?: CallableFunction,
 	items?: items | Promise<items>,
@@ -49,25 +53,51 @@ export class ListItem extends Widget {
 		super(mergeOptions({
 			element: { name: 'li' },
 			init: options,
-			_setters: ['init', 'media', 'title', 'header', 'after', 'subtitle', 'content', 'titleRow']
+			_setters: ['init', 'url', 'inner', 'media', 'title', 'header', 'after', 'subtitle', 'content', 'titleRow']
 		}, options));
+	}
+
+	find(q: string, subchild?: string): Widget {
+		if(q == '.item-content' && this.options.selfContain){
+			return this;
+		} else {
+			return super.find(q, subchild);
+		}
 	}
 
 	set init(options: ListItemOptions){
 		let container = new ListItemContainer as Widget;
 		if(options.link) container = new ListItemContainerLink as Widget;
-		super.add(container);
+		if(options.selfContain == true){
+			super.addClass('item-content');
+		} else {
+			super.add(container);
+		}
+	}
+
+	set url(url: string){
+		if(this.options.link == true){
+			this.find('a').attr({ href: url });
+		}
 	}
 
 	set media(media: Widget){
-		if(!super.find('.item-media')) super.find('.item-content').addBefore(new ListItemMedia as Widget);
+		if(!super.find('.item-media')) this.find('.item-content').addBefore(new ListItemMedia as Widget);
 		super.find('.item-media').add(media);
+	}
+	
+	/**
+	 * Do not use unless making custom list items!
+	 */
+	set inner(inner: Widget){
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner as Widget);
+		super.find('.item-inner').add(inner);
 	}
 
 	set title(title: string | Widget){
-		if(!super.find('.item-title')) super.find('.item-content').add(new ListItemInner({
-			children: [ new ListItemInnerTitle ]
-		}) as Widget);
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner as Widget);
+		if(!super.find('.item-title')) this.find('.item-content')
+		.find('.item-inner').add(new ListItemInnerTitle as Widget);
 		if(typeof title == "string"){
 			super.find('.item-title').text(title);
 		} else {
@@ -76,7 +106,7 @@ export class ListItem extends Widget {
 	}
 
 	set header(title: string | Widget){
-		if(!super.find('.item-inner')) super.find('.item-content').add(new ListItemInner({
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner({
 			children: [ new ListItemInnerTitle ]
 		}) as Widget);
 		if(!super.find('.item-header')) super.find('.item-inner').find('.item-title').add(new ListItemInnerTitleHeader as Widget);
@@ -88,10 +118,10 @@ export class ListItem extends Widget {
 	}
 
 	set after(title: string | Widget){
-		if(!super.find('.item-inner')) super.find('.item-content').add(new ListItemInner({
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner({
 			children: [ new ListItemInnerTitle ]
 		}) as Widget);
-		if(!super.find('.item-after')) super.find('.item-content').find('.item-inner').add(new ListItemInnerAfter as Widget);
+		if(!super.find('.item-after')) this.find('.item-content').find('.item-inner').add(new ListItemInnerAfter as Widget);
 		if(typeof title == "string"){
 			super.find('.item-after').text(title);
 		} else {
@@ -100,7 +130,7 @@ export class ListItem extends Widget {
 	}
 
 	set subtitle(title: string | Widget){
-		if(!super.find('.item-inner')) super.find('.item-content').add(new ListItemInner({
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner({
 			children: [ new ListItemInnerTitle ]
 		}) as Widget);
 		if(!super.find('.item-subtitle')) super.find('.item-inner').add(new ListItemSubtitle as Widget);
@@ -112,7 +142,7 @@ export class ListItem extends Widget {
 	}
 
 	set content(title: string | Widget){
-		if(!super.find('.item-inner')) super.find('.item-content').add(new ListItemInner({
+		if(!super.find('.item-inner')) this.find('.item-content').add(new ListItemInner({
 			children: [ new ListItemInnerTitle ]
 		}) as Widget);
 		if(!super.find('.item-text')) super.find('.item-inner').add(new ListItemText as Widget);
@@ -126,7 +156,7 @@ export class ListItem extends Widget {
 	set titleRow(rowEnabled: boolean){
 		if(rowEnabled){
 			let row = new ListItemTitleRow as Widget;
-			if(!super.find('.item-title-row')) super.find('.item-content').addBefore(row);
+			if(!super.find('.item-title-row')) this.find('.item-content').addBefore(row);
 			row.add(super.find('.item-title'));
 			row.add(super.find('.item-after'));
 		}

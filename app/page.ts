@@ -6,6 +6,10 @@ import { Header } from "../src/widgets/header";
 import { Card } from "../src/widgets/card";
 import { List, ListItem } from "../src/widgets/list";
 import { MaterialIcons } from "../src/widgets/icons";
+import { Form } from "@/src/widgets/form";
+import { Input } from "@/src/widgets/input";
+import { Link } from "@/src/widgets/link";
+import { Preloader } from "@/src/widgets/preloader";
 
 export default class extends Component {
 	build(props: buildProps) {
@@ -13,12 +17,16 @@ export default class extends Component {
 			header: new Header({
 				title: 'hello',
 				right: [
-					new Text('hi')
+					new Link(MaterialIcons.home)
 				],
 				largeTitle: 'Hii',
 				large: true
 			}),
 			content: [
+
+				new Preloader({
+					color: 'multi'
+				}),
 
 				new Card({
 					header: 'Hi',
@@ -38,9 +46,26 @@ export default class extends Component {
 						return new ListItem({
 							media: MaterialIcons.home,
 							title: item,
-							link: true
+							link: true,
+							url: '/'
 						})
 					}
+				}),
+
+				new Form({
+					outline: true,
+					children: [
+						new Input({
+							media: MaterialIcons.person,
+							title: 'Yo!',
+							info: 'Yo man',
+							placeholder: "hello",
+							validate: true,
+							outline: true,
+							pattern: "apple|banana",
+							errorMessage: "insert (apple|banana)"
+						})
+					]
 				})
 			]
 		});

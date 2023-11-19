@@ -5,7 +5,8 @@ import '@/styles/icons.css';
 
 export default class extends App {
 	static options = {
-		darkMode: true
+		darkMode: true,
+		theme: 'md'
 	};
 	
 	build(props: buildProps) {

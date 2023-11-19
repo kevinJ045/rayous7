@@ -32,7 +32,7 @@ export class IconsList {
 			get: (target, prop, receiver) => {
 				if (typeof prop === 'string') {
 					return new Icon({
-						class: classnames,
+						class: 'icon '+classnames,
 						icon: prop,
 						textual: true
 					});
