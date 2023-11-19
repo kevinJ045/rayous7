@@ -40,9 +40,7 @@ export class Link extends DefaultLink {
 			accepts: true
 		}, options));
 
-		if(options.media){
-			this.media = options.media;
-		}
+		if(options.media) this.media = options.media;
 	}
 
 	set media(media: Widget){

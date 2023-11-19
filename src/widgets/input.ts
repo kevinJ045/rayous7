@@ -81,6 +81,11 @@ export class Input extends ListItem {
 		this.find('.input-item').attr({ 'data-error-message': errorMessage });
 	}
 
+	set controller(controller: EntryController){
+		(this.find('.input-item') as InputWrapper)
+		.setController(controller);
+	}
+
 	set floating(float: boolean){
 		if(float){
 			super.find('.item-title')

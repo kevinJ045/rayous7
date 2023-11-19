@@ -1,23 +1,27 @@
 import Framework7 from "framework7";
 import { Component, Text, Widget } from "rayous";
-import { buildProps } from "rayous/extra";
+import { buildProps, Controller, EntryController, WidgetEvent } from "rayous/extra";
 import { Page } from "../src/components/page";
 import { Header } from "../src/widgets/header";
 import { Card } from "../src/widgets/card";
 import { List, ListItem } from "../src/widgets/list";
-import { MaterialIcons } from "../src/widgets/icons";
+import { F7Icons, MaterialIcons } from "../src/widgets/icons";
 import { Form } from "@/src/widgets/form";
 import { Input } from "@/src/widgets/input";
 import { Link } from "@/src/widgets/link";
 import { Preloader } from "@/src/widgets/preloader";
+import { Button } from "@/src/widgets/button";
 
 export default class extends Component {
+
+	_greeting = new EntryController('hello');
+
 	build(props: buildProps) {
 		return new Page({
 			header: new Header({
 				title: 'hello',
 				right: [
-					new Link(MaterialIcons.home)
+					new Link(F7Icons.house)
 				],
 				largeTitle: 'Hii',
 				large: true
@@ -58,14 +62,25 @@ export default class extends Component {
 						new Input({
 							media: MaterialIcons.person,
 							title: 'Yo!',
+							controller: this._greeting,
 							info: 'Yo man',
 							placeholder: "hello",
 							validate: true,
+							floating: true,
+							required: true,
 							outline: true,
-							pattern: "apple|banana",
-							errorMessage: "insert (apple|banana)"
+							pattern: "hello|hi|yo",
+							errorMessage: "insert (hello|hi|yo)"
+						}),
+						new Button('Submit', {
+							media: MaterialIcons.send
 						})
-					]
+					],
+					onSubmit: (e: WidgetEvent<SubmitEvent>) => {
+						e.prevent();
+						props.app.dialog.alert('value: '+this._greeting.get());
+						// console.log(e.original);
+					}
 				})
 			]
 		});

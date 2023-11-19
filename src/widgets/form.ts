@@ -12,12 +12,12 @@ export interface FormOptions extends options {
 	dividers?: boolean
 }
 
-
 export const FormUl = createClass('form-ul', null, 'ul');
 
 export class Form extends Widget {
 	constructor(options: FormOptions){
 		super(mergeOptions({
+			element: { name: 'form' },
 			class: mergeClassnameWithOptions('list', options, 
 			[
 				['inset', 'inset'],

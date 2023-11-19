@@ -12,6 +12,6 @@
   "dependencies": {
     "framework7": "^8.3.0",
     "framework7-icons": "^5.0.5",
-    "rayous": "^1.9.3"
+    "rayous": "^1.9.9"
   }
 }
