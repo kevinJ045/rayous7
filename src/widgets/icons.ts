@@ -1,4 +1,4 @@
-import "framework7-icons";
+import "../css/f7icons.css";
 import { Widget } from "rayous";
 
 
