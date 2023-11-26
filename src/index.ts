@@ -15,6 +15,7 @@ export * from "./components/page";
  */
 export * from "./widgets/button";
 export * from "./widgets/card";
+export * from "./widgets/fab";
 export * from "./widgets/form";
 export * from "./widgets/header";
 export * from "./widgets/icons";

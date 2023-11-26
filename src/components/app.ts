@@ -33,6 +33,12 @@ export class App extends Component {
 									let exports: Record<string, RayousExport> = getComponentExports();
 									resolve(exports[item.filename]);
 								}
+								script.onerror = () => {
+									const requestUrl = url+'/index.js';
+									script.src = requestUrl;
+									script.remove();
+									document.head.appendChild(script);
+								}
 	
 								document.head.appendChild(script);
 							});
