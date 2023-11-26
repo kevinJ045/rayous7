@@ -1,6 +1,6 @@
 {
   "name": "rayous7",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "framework7": "^8.3.0",
-    "rayous": "^2.2.4"
+    "rayous": "^2.2.7"
   },
   "devDependencies": {
     "prismjs": "^1.29.0"

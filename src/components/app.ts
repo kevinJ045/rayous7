@@ -11,7 +11,7 @@ export class App extends Component {
 	static beforeBuildStart(props: buildProps){
 		let app = new Framework7({
 			...this.options,
-			routes: props.router.paths.filter(item => item.pathname !== props.route.path).map(item => {
+			routes: props.router.paths.map(item => {
 				return {
 					path: item.pathname,
 					component: (_props, { $h, $el, $on }) => {
@@ -43,6 +43,10 @@ export class App extends Component {
 								document.head.appendChild(script);
 							});
 							
+						});
+
+						$on('pageReinit', (e, page) => {
+							if(builtComponent) builtComponent.emit('rebuild', { widget: made, component: builtComponent, props: p });
 						});
 
 						$on('pageBeforeIn', (e, page) => {
