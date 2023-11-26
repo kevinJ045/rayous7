@@ -9,9 +9,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src/",
+    "package.json"
+  ],
   "dependencies": {
     "framework7": "^8.3.0",
     "framework7-icons": "^5.0.5",
-    "rayous": "^1.9.9"
+    "rayous": "^2.2.4"
   }
 }

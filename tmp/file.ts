@@ -6,13 +6,16 @@ import Page1 from "../app/layout";
 
 const clientInit = { init: () => {}, after: () => {} };
 
+
+const otherPaths = [{"pathname":"","filename":"app/page.ts"},{"pathname":"/file/:file","filename":"app/file/[file]/page.ts"},{"pathname":"/files/:file","filename":"app/files/[file]/route.ts"},{"pathname":"/files","filename":"app/files/route.ts"}];
+let base_props = { router: { paths: otherPaths, assign: function(path){ location.assign(path) }, navigate: function(path, options){ _navigate(path, options) }, back: function(){ location.back() } }, route: {path: "/", params: {} }}
+if(!window.all_possible_paths) window.all_possible_paths = otherPaths;
+function start(){
 let cscript = document.currentScript;
 const pages = window.pages || [];
 if(!window.pages) window.pages = pages;
 
 if(typeof Page0.title === "string") document.title = Page0.title;
-
-const otherPaths = ["/"];
 
 const _navigate = (path, options = {}) => {
 	let pathname = path;
@@ -61,8 +64,6 @@ const _navigate = (path, options = {}) => {
 	window.previousPathname = location.pathname;
 	_startScriptLoad();
 }
-
-let base_props = { router: { paths: otherPaths, assign: function(path){ location.assign(path) }, navigate: function(path, options){ _navigate(path, options) }, back: function(){ location.back() } }, route: {path: "/", params: {} }}
 
 const buildProps = (props: any) => (
 	{ ...base_props, wrap(object){ return {...this, ...object}; }, addArgument(...args){if(!Array.isArray(base_props.args)) base_props.args = [];base_props.args.push(...args);return buildProps();}, add(prop, value){base_props[prop] = value; return buildProps();}, ...props }
@@ -143,4 +144,6 @@ if(!window.popStateListenerListening) window.addEventListener('popstate', window
 window.popStateListenerListening = true;
 
 window.addEventListener('load', window.loadFunction);
+}
+start()
 	

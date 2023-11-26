@@ -3,7 +3,7 @@ import { mergeOptions, options } from "rayous/extra";
 import { createClass } from "../utils/class";
 import { mergeClassnameWithOptions } from "../utils/cssClass";
 
-export const CardContent = createClass('card-content card-content-padding');
+export const CardContent = createClass('card-content');
 export const CardHeader = createClass('card-header');
 export const CardFooter = createClass('card-footer');
 
@@ -15,6 +15,7 @@ export interface CardOptions extends options {
 
 	outline?: boolean,
 	raised?: boolean,
+	padded?: boolean,
 
 	headerImage?: string,
 	headerHeight?: string | number
@@ -28,8 +29,9 @@ export class Card extends Widget {
 				['outline', 'card-outline'],
 				['raised', 'card-raised']
 			]),
+			padded: true,
 			_setters: ['header', 'footer', 'headerImage', 'headerHeight'],
-			children: [content]
+			children: [content],
 		}, options));
 
 		let o: CardOptions = this.options;
@@ -42,6 +44,7 @@ export class Card extends Widget {
 				}
 			});
 		}
+		if(o.padded) content.addClass('card-content-padding');
 	}
 
 	set header(title: string | Widget){

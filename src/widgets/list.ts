@@ -24,7 +24,7 @@ export interface ListItemOptions extends options {
 type items = Controller<any[]> | any[]
 export interface ListOptions extends options {
 	itemsStateName?: string,
-	template?: CallableFunction,
+	template?: (item?: any, index?: number, array?: any[]) => Widget,
 	items?: items | Promise<items>,
 	empty?: boolean,
 
@@ -48,7 +48,7 @@ export const ListItemSubtitle = createClass('item-subtitle', ListItemItem);
 export const ListItemText = createClass('item-text', ListItemItem);
 export const ListItemTitleRow = createClass('item-title-row', ListItemItem);
 
-export class ListItem extends Widget {
+export class ListItem extends Widget<ListItemOptions> {
 	constructor(options: ListItemOptions){
 		super(mergeOptions({
 			element: { name: 'li' },
@@ -77,7 +77,7 @@ export class ListItem extends Widget {
 
 	set url(url: string){
 		if(this.options.link == true){
-			this.find('a').attr({ href: url });
+			this.find('a')?.attr({ href: url });
 		}
 	}
 

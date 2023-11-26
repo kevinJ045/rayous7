@@ -1,7 +1,8 @@
 {
   "title": "rayous7",
   "meta": {
-    "author": "makano"
+    "author": "makano",
+    "viewport": "width=device-width, viewport-fit=cover"
   },
   "links": [],
   "scripts": [],
