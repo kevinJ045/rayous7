@@ -156,9 +156,9 @@ export class ListItem extends Widget<ListItemOptions> {
 	set titleRow(rowEnabled: boolean){
 		if(rowEnabled){
 			let row = new ListItemTitleRow as Widget;
-			if(!super.find('.item-title-row')) this.find('.item-content').addBefore(row);
+			if(!super.find('.item-title-row')) this.find('.item-inner').addBefore(row);
 			row.add(super.find('.item-title'));
-			row.add(super.find('.item-after'));
+			if(super.find('.item-after')) row.add(super.find('.item-after'));
 		}
 	}
 }
